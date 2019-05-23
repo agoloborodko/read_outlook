@@ -54,7 +54,7 @@ def get_recieved_time(item):
 
 
 def date_correction(index, target_date, items, border='upper'):
-    interval = get_recieved_time(items[items.Count]) - get_recieved_time(items[1])
+    interval = get_recieved_time(items[items.Count-1]) - get_recieved_time(items[0])
     items_count = items.Count
 
     while True:
@@ -100,8 +100,8 @@ def date_correction(index, target_date, items, border='upper'):
 
 
 def find_msg_by_date(items, date_start, date_end):
-    msgs_count = items.Count
-    date_first_msg = get_recieved_time(items[1])
+    msgs_count = items.Count - 1
+    date_first_msg = get_recieved_time(items[0])
     date_last_msg = get_recieved_time(items[msgs_count])
 
     if date_last_msg < date_end:

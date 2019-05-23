@@ -8,8 +8,8 @@ accounts = win32com.client.Dispatch("Outlook.Application").Session.Accounts
 
 f = outlook_get_folder_from_name(outlook, 'МаниМен платежи')
 
-date_start = pd.to_datetime('2019-04-01', format='%Y-%m-%d')
-date_end = pd.to_datetime('2019-05-15', format='%Y-%m-%d')
+date_start = pd.to_datetime('2019-05-01', format='%Y-%m-%d')
+date_end = pd.to_datetime('2019-05-24', format='%Y-%m-%d')
 
 msg_list = extract_msg_by_dates(outlook, 'МаниМен платежи', date_start, date_end)
 
