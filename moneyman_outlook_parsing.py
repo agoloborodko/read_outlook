@@ -8,8 +8,8 @@ accounts = win32com.client.Dispatch("Outlook.Application").Session.Accounts
 
 f = outlook_get_folder_from_name(outlook, 'МаниМен платежи')
 
-date_start = pd.to_datetime('2019-05-01', format='%Y-%m-%d')
-date_end = pd.to_datetime('2019-05-24', format='%Y-%m-%d')
+date_start = pd.to_datetime('2019-05-22', format='%Y-%m-%d')
+date_end = pd.to_datetime('2019-05-29', format='%Y-%m-%d')
 
 msg_list = extract_msg_by_dates(outlook, 'МаниМен платежи', date_start, date_end)
 
@@ -38,7 +38,7 @@ for msg in msg_list:
 
 df_errors = pd.DataFrame(errors)
 
-writer = pd.ExcelWriter('moneyman_parse.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('moneyman_parse_1.xlsx', engine='xlsxwriter')
 df_errors.to_excel(writer, sheet_name='errors')
 df_payments.to_excel(writer, sheet_name='payments')
 

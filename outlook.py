@@ -66,6 +66,12 @@ def date_correction(index, target_date, items, border='upper'):
             index - correction, -correction / items.Count, corr_date)
         )
 
+        if abs(correction) < 1:
+            if correction < 0:
+                correction = -1
+            else:
+                correction = 1
+
         if corr_date < current_date < target_date or corr_date > current_date > target_date:  # удаляемся от таргета
             # уменьшаем абсолютное значение correction
             return date_correction(index + int(correction / 2) + 1, target_date, items, border)
