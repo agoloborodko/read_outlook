@@ -19,7 +19,7 @@ end = start + len(msg_list)
 errors = []
 
 for msg in msg_list:
-    if msg[0] % 50 == 0:
+    if (msg[0] - start) % 50 == 0:
         print('Обрабатываю {} из {}'.format(msg[0] - start, end - start))
     try:
         df_pay = None
@@ -32,13 +32,14 @@ for msg in msg_list:
             df_pay.drop(0, inplace=True)
             df_pay.set_axis(labels=[msg[0]], axis='index', inplace=True)
             df_pay.loc[msg[0], 'inbox_date'] = msg[1]
+            df_pay.loc[msg[0], 'sender_email'] = msg[3]
             df_payments = df_payments.append(df_pay, sort=False)
     except Exception as e:
         errors.append([msg[0], msg[1], e])
 
 df_errors = pd.DataFrame(errors)
-
-writer = pd.ExcelWriter('moneyman_parse_1.xlsx', engine='xlsxwriter')
+today = pd.Timestamp.now().strftime('%Y_%m_%d')
+writer = pd.ExcelWriter('{}_moneyman_parse.xlsx'.format(today), engine='xlsxwriter')
 df_errors.to_excel(writer, sheet_name='errors')
 df_payments.to_excel(writer, sheet_name='payments')
 

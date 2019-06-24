@@ -53,6 +53,10 @@ def get_recieved_time(item):
     return pd.to_datetime(dateutil.parser.parse(str(item.ReceivedTime))).tz_convert(tz=None)
 
 
+def get_sender_email(item):
+    return str(item.SenderEmailAddress)
+
+
 def date_correction(index, target_date, items, border='upper'):
     interval = get_recieved_time(items[items.Count-1]) - get_recieved_time(items[0])
     items_count = items.Count
@@ -162,8 +166,15 @@ def extract_msg_by_dates(outlook_obj, folder_name, date_start, date_end):
     result = []
 
     for i in range(start, end):
-        result.append([i, get_recieved_time(f_items[i]), f_items[i].HTMLBody])
-        if i % 50 == 0:
+        if (i - start) % 50 == 0:
             print('Загружаю {} из {}'.format(i - start, end - start))
+        result.append(
+            [
+                i,
+                get_recieved_time(f_items[i]),
+                f_items[i].HTMLBody,
+                get_sender_email(f_items[i])
+            ]
+        )
 
     return result
