@@ -64,6 +64,10 @@ def date_correction(index, target_date, items, border='upper'):
     while True:
         current_date = get_recieved_time(items[index])
         correction = int(((current_date - target_date) / interval) * items_count)
+        if index - correction < 0:
+            correction = index
+        if index - correction > items_count:
+            correction = -(items_count - index)
         corr_date = get_recieved_time(items[index - correction])
 
         print('trying index {}, correction {:.1%}, got {}'.format(
@@ -123,6 +127,12 @@ def find_msg_by_date(items, date_start, date_end):
 
     date_end_location = int(msgs_count - ((target_interval_border / whole_interval) * msgs_count))
     date_start_location = int(date_end_location - ((target_interval / whole_interval) * msgs_count))
+
+    if date_start_location < 0:
+        date_start_location = 0
+    if date_end_location > msgs_count:
+        date_end_location = msgs_count
+
     print('whole interval')
     print(date_first_msg, date_last_msg, '\n')
     print('desired interval')
