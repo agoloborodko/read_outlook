@@ -59,15 +59,18 @@ def get_sender_email(item):
 
 def date_correction(index, target_date, items, border='upper'):
     interval = get_recieved_time(items[items.Count-1]) - get_recieved_time(items[0])
-    items_count = items.Count
+    items_count_total = items.Count
+    items_count = items_count_total
 
     while True:
         current_date = get_recieved_time(items[index])
         correction = int(((current_date - target_date) / interval) * items_count)
         if index - correction < 0:
+            # в этом случае мы получаем отрицательный новый index
             correction = index
-        if index - correction > items_count:
-            correction = -(items_count - index)
+        if index - correction > items_count_total:
+            # в этом случае мы получаем новый index, превосходящий общее количество писем в папке
+            correction = -(items_count_total - index)
         corr_date = get_recieved_time(items[index - correction])
 
         print('trying index {}, correction {:.1%}, got {}'.format(
