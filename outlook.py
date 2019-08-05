@@ -64,7 +64,16 @@ def date_correction(index, target_date, items, border='upper'):
 
     while True:
         current_date = get_recieved_time(items[index])
-        correction = int(((current_date - target_date) / interval) * items_count)
+        correction = float(((current_date - target_date) / interval) * items_count)
+
+        if abs(correction) < 1:
+            if correction < 0:
+                correction = -1
+            else:
+                correction = 1
+
+        correction = int(correction)
+
         if index - correction < 0:
             # в этом случае мы получаем отрицательный новый index
             correction = index
@@ -76,12 +85,6 @@ def date_correction(index, target_date, items, border='upper'):
         print('trying index {}, correction {:.1%}, got {}'.format(
             index - correction, -correction / items.Count, corr_date)
         )
-
-        if abs(correction) < 1:
-            if correction < 0:
-                correction = -1
-            else:
-                correction = 1
 
         if corr_date < current_date < target_date or corr_date > current_date > target_date:  # удаляемся от таргета
             # уменьшаем абсолютное значение correction
