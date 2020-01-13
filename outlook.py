@@ -79,7 +79,7 @@ def date_correction(index, target_date, items, border='upper'):
             correction = index
         if index - correction > items_count_total:
             # в этом случае мы получаем новый index, превосходящий общее количество писем в папке
-            correction = -(items_count_total - index)
+            correction = -(items_count_total - index - 1)
         corr_date = get_recieved_time(items[index - correction])
 
         print('trying index {}, correction {:.1%}, got {}'.format(
